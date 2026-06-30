@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: trustlens-db
+    environment:
+      POSTGRES_USER: trustlens
+      POSTGRES_PASSWORD: trustlens_password
+      POSTGRES_DB: trustlens_db
+    ports:
+      - "5440:5432"
+    volumes:
+      - trustlens_postgres_data:/var/lib/postgresql/data
+    restart: always
+
+  api:
+    build: .
+    container_name: trustlens-api
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=development
+      - POSTGRES_SERVER=db
+      - POSTGRES_USER=trustlens
+      - POSTGRES_PASSWORD=trustlens_password
+      - POSTGRES_DB=trustlens_db
+      - POSTGRES_PORT=5432
+    depends_on:
+      - db
+    restart: always
+
+volumes:
+  trustlens_postgres_data:

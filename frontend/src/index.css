@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+@theme {
+  --color-glass: rgba(255, 255, 255, 0.1);
+  --color-glass-border: rgba(255, 255, 255, 0.2);
+  --color-glass-hover: rgba(255, 255, 255, 0.15);
+  
+  --color-dark-glass: rgba(0, 0, 0, 0.2);
+  --color-dark-glass-border: rgba(255, 255, 255, 0.1);
+}
+
+@layer base {
+  body {
+    @apply bg-slate-900 text-slate-100 min-h-screen relative overflow-x-hidden;
+    /* Adding a subtle gradient background */
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+  }
+
+  /* Optional: Background decoration bubbles */
+  body::before {
+    content: '';
+    position: fixed;
+    top: -20%;
+    left: -10%;
+    width: 60%;
+    height: 60%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
+    z-index: -1;
+  }
+  
+  body::after {
+    content: '';
+    position: fixed;
+    bottom: -20%;
+    right: -10%;
+    width: 50%;
+    height: 50%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, transparent 70%);
+    z-index: -1;
+  }
+}
+
+@layer components {
+  .glass-panel {
+    @apply bg-glass border border-glass-border backdrop-blur-md rounded-2xl shadow-xl;
+  }
+  
+  .glass-card {
+    @apply bg-dark-glass border border-dark-glass-border backdrop-blur-lg rounded-xl p-6 shadow-lg transition-all duration-300;
+  }
+  
+  .glass-card:hover {
+    @apply border-glass-border shadow-2xl;
+  }
+
+  .glass-input {
+    @apply bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all backdrop-blur-sm placeholder-slate-400 text-slate-100;
+  }
+
+  .glass-button {
+    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2;
+  }
+  
+  .glass-button-primary {
+    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 bg-blue-600/80 hover:bg-blue-500 text-white border border-blue-500/50 backdrop-blur-sm;
+  }
+  
+  .glass-button-secondary {
+    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 bg-slate-700/50 hover:bg-slate-600/50 text-slate-200 border border-slate-600 backdrop-blur-sm;
+  }
+  
+  .glass-button-danger {
+    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 bg-red-500/80 hover:bg-red-400 text-white border border-red-500/50 backdrop-blur-sm;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
