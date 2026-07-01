@@ -101,7 +101,7 @@ class VerificationService:
                 hash_evidence=hash_result,
                 metadata_evidence=metadata_result,
                 forensic_evidence=forensics_result,
-                blockchain_evidence=blockchain_proof
+                blockchain_evidence=blockchain_proof.model_dump() if blockchain_proof else None
             )
             
             # 10. Run AI Explanation Engine
@@ -111,7 +111,7 @@ class VerificationService:
                     metadata_evidence=metadata_result,
                     forensic_evidence=forensics_result,
                     trust_score_result=trust_score_result,
-                    blockchain_evidence=blockchain_proof
+                    blockchain_evidence=blockchain_proof.model_dump() if blockchain_proof else None
                 )
             except Exception as e:
                 logger.error(f"AI explanation failed: {e}")
