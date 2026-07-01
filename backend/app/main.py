@@ -10,9 +10,9 @@ from app.api.v1.api import api_router
 from app.core.responses import ErrorResponse, ErrorDetails
 
 app = FastAPI(
-    title=settings.PROJECT_NAME,
+    title=settings.APP_NAME,
     version="1.0.0",
-    openapi_url=f"{settings.API_V1_STR}/openapi.json"
+    openapi_url=f"{settings.API_V1_PREFIX}/openapi.json"
 )
 
 # Startup time for uptime calculation
@@ -62,9 +62,9 @@ def startup_event():
         user_service = UserService(db)
         user_service.ensure_default_roles()
 
-app.include_router(api_router, prefix=settings.API_V1_STR)
+app.include_router(api_router, prefix=settings.API_V1_PREFIX)
 
-@app.get(f"{settings.API_V1_STR}/health", tags=["Health"])
+@app.get(f"{settings.API_V1_PREFIX}/health", tags=["Health"])
 async def health_check():
     """
     Production health monitor.
@@ -72,10 +72,10 @@ async def health_check():
     uptime = time.time() - startup_time
     
     return {
-        "application": settings.PROJECT_NAME,
+        "application": settings.APP_NAME,
         "status": "healthy",
         "version": "1.0.0",
-        "environment": settings.ENVIRONMENT,
+        "environment": settings.APP_ENV,
         "database": "connected",
         "storage": "operational",
         "ai": "operational",
@@ -84,7 +84,7 @@ async def health_check():
         "timestamp": datetime.utcnow().isoformat() + "Z"
     }
 
-@app.get(f"{settings.API_V1_STR}/version", tags=["Health"])
+@app.get(f"{settings.API_V1_PREFIX}/version", tags=["Health"])
 async def get_version():
     """
     Get the API version.
